@@ -1,21 +1,19 @@
 import ReactFlow, { Node, NodeChange, ReactFlowProvider, applyNodeChanges } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { Dispatch, useCallback } from 'react';
+import { useCallback } from 'react';
+import { nodesState } from './atoms';
+import { useRecoilState } from 'recoil';
 
-interface Props
+
+const Flow: React.FC = (): JSX.Element =>
 {
-  nodes: Node[]
-  setNodes: Dispatch<React.SetStateAction<Node[]>>
-}
+  const [nodes, setNodes] = useRecoilState(nodesState)
 
-
-const Flow: React.FC<Props> = ({ nodes, setNodes }): JSX.Element =>
-{
   const onNodesChange = useCallback((changes: NodeChange[]) =>
   {
     setNodes((currentNodes: Node[]) => applyNodeChanges(changes, currentNodes))
   },[],)
-  
+
 
   return (
     <ReactFlowProvider>
@@ -30,7 +28,7 @@ const Flow: React.FC<Props> = ({ nodes, setNodes }): JSX.Element =>
         />
       </div>
     </ReactFlowProvider>
-  );
+  )
 }
 
 export default Flow;

@@ -1,29 +1,51 @@
-import { Node }  from 'reactflow';
+import { useEffect } from 'react';
+import { nodesDataState } from './atoms';
+import { useRecoilState } from 'recoil';
 
 
-interface Props
+const Header: React.FC = (): JSX.Element =>
 {
-  nodes: Node[]
-}
-
-const Header: React.FC<Props> = ({ nodes }): JSX.Element =>
-{
+    const [nodesData, setNodesData] = useRecoilState(nodesDataState)
+    
     console.log("Button 'Print node names' re-rendered")
 
     const handlePrintNodeNames = () =>
     {
-        for (let i = 0; i < nodes.length; i++)
+        for (let i = 0; i < nodesData.length; i++)
         {
-            console.log(nodes[i].data.label)
+            console.log(nodesData[i].label)
         }
     }
 
-    return <div>
-        <button
-            onClick={ handlePrintNodeNames }>
-            Print node names
-        </button>
-    </div>
+    const handleChangeNodeNames = () =>
+    {
+        console.log("Updating node names")
+        setNodesData((nodesData: any[]) => nodesData.map(currentNodeData => 
+        {
+            const label = currentNodeData.data.label
+            const newLabel = label + '.'
+            const newData = { ...currentNodeData.data, label: newLabel }
+            return { data: newData }
+        }))
+    }
+
+    useEffect(() =>
+    {
+        console.log("Nodes data: ", nodesData)
+    }, [nodesData]);
+
+    return (
+        <div>
+            <button
+                onClick={ handlePrintNodeNames }>
+                Print node names
+            </button>
+            <button
+                onClick={ handleChangeNodeNames }>
+                Change node names
+            </button>
+        </div>
+    )
 }
     
 export default Header
