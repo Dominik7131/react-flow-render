@@ -1,9 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+import Application from './application'
+
+console.log("Running application ...")
+
+ReactDOM.createRoot(document.getElementById('application')!).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <Application />
+  </React.StrictMode>
 )
